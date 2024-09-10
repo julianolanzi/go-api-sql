@@ -13,20 +13,19 @@ type productController struct {
 }
 
 func NewProductController(usecase usecase.ProductUsecase) productController {
-
 	return productController{
 		productUseCase: usecase,
 	}
 }
 
 func (p *productController) GetProducts(ctx *gin.Context) {
-	//usecase
+
 	products, err := p.productUseCase.GetProducts()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
 	}
+
 	ctx.JSON(http.StatusOK, products)
 }
 
